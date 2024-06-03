@@ -1,0 +1,6 @@
+@QanShopWebApi_HostAddress = http://localhost:5072
+
+GET {{QanShopWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
