@@ -22,7 +22,7 @@ namespace QanShopWebApi.Controllers
         [Route("")]
         public async Task<IActionResult> GetAsync() 
         {
-            var items = await _context.Carts.ToListAsync();
+            var items = await _context.Carts.Include(x => x.Product).ToListAsync();
             return StatusCode(StatusCodes.Status200OK, items);
         }
 
@@ -38,7 +38,7 @@ namespace QanShopWebApi.Controllers
             if (cartItem != null)
             {
 
-                cartItem.Quantity = createCart.Quantity;
+                cartItem.Quantity += 1;
                 _context.Carts.Update(cartItem);
             }
             else 
@@ -53,6 +53,23 @@ namespace QanShopWebApi.Controllers
             }
             await _context.SaveChangesAsync();
             return StatusCode(StatusCodes.Status200OK, cartItem);
+        }
+
+        #endregion
+
+        #region Delete Cart Item
+        [HttpDelete]
+        [Route("delete/{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var result = await _context.Carts.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (result == null) return NotFound(id);
+
+            _context.Carts.Remove(result);
+            await _context.SaveChangesAsync();
+
+            return StatusCode(StatusCodes.Status200OK, result);
         }
 
         #endregion
