@@ -25,6 +25,15 @@ namespace QanShopWebApi.Controllers
             return StatusCode(StatusCodes.Status200OK,product);
         }
 
+        //Get Product by Name
+        [HttpPost]
+        public async Task<IActionResult> GetByName(string keyword) 
+        {
+            var products = from product in _context.Products where product.Name.Contains(keyword) select product;
+
+            return StatusCode(StatusCodes.Status200OK,products);
+        }
+
         #endregion
     }
 }
