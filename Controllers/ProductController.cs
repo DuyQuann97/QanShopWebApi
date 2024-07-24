@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QanShopWebApi.Models;
+using QanShopWebApi.Models.ViewModels;
 
 namespace QanShopWebApi.Controllers
 {
@@ -26,7 +27,8 @@ namespace QanShopWebApi.Controllers
         }
 
         //Get Product by Name
-        [HttpPost]
+        [Route("search")]
+        [HttpGet]
         public async Task<IActionResult> GetByName(string keyword) 
         {
             var products = from product in _context.Products where product.Name.Contains(keyword) select product;
